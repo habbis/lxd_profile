@@ -1,0 +1,45 @@
+### This is a yaml representation of the profile.
+### Any line starting with a '# will be ignored.
+###
+### A profile consists of a set of configuration items followed by a set of
+### devices.
+###
+### An example would look like:
+### name: onenic
+### config:
+###   raw.lxc: lxc.aa_profile=unconfined
+### devices:
+###   eth0:
+###     nictype: bridged
+###     parent: lxdbr0
+###     type: nic
+###
+### Note that the name is shown but cannot be changed
+
+config:
+  user.user-data: |
+    #cloud-config
+    users:
+      - name: root
+        ssh-authorized-keys:
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCw0246LpRtBBJV4t9gsPRaGy5ZMfJAZ63fHN7EdBzZvWO6jrS5BdRGujt50sykXo54mpkbrKCngWqz+q5glqbiyXBVhygB0K1IGILFuxKHiShBsynM/2q613VQeMDNqs6PCzToS8z2Dyz6Axo/45vIfRfd+ruhVaeC2J/bzoka3Uq1as5MwGNB+FKlirhqUDJHUFEE2cqFj8O2hnOj4KwtwrTfpc+689Uxg4MnlKdT6bgLKcp49vg9rmQoTkdWknxZ8UcSG9QR/Y4ObsFJicYJx8XIDJUBXvIoqJd0udW+TfOkIiKStUQy9AAbWRAjz3qbZXeDCASOJA5H8a8Nf98/
+          - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDznoT7SGEe/Yld35/FmQF0UWDkn/k4zZLggisEbnjr8xgWW0pNMvwt7gH9GvCQtTb5jDj2VYlTah52/00E73mD28OfY/8L1Lu9bs3mtkh0jpeY2C7+qPWgVG0kVQE62InEsK5DfhjI6BUDajHVucvdNr0BERax8J9BCQM45uG62O2JqBkFGsvbJsleeAbuPavYIi9dAqs/A9OBjlib0r5ysXjIkC0YnG99T9bRsyuCdefvSD8pLr7aM0UPRpZZqxYmexr4WLocChqCwR9DO+GCnLwZep4VL2n/uK9BDe0awXhZ/MJDMhpFAZsSJZG5TQk7Ry5n7sfRUozsjW0D66If
+        sudo : ['ALL=(ALL) NOPASSWD:ALL']
+        groups: sudo
+        shell: /bin/bash
+    runcmd:
+      - yum install -y sudo openssh-server
+      - systemctl enable --now sshd
+description: Default LXD profile
+devices:
+  eth0:
+    name: eth0
+    nictype: bridged
+    parent: lxdbr0
+    type: nic
+  root:
+    path: /
+    pool: default
+    type: disk
+name: centos
+used_by
